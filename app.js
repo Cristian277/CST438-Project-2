@@ -27,6 +27,20 @@ const connection = mysql.createConnection({
     database: 'video_game_db'
 });
 
+module.exports = {
+  HOST: "us-cdbr-east-02.cleardb.com",
+  USER: "b106186f8dedb8",
+  PASSWORD: "24a96bfd",
+  DB: "heroku_8b16e6334be95e8"
+};
+
+/*
+username:b106186f8dedb8
+password:24a96bfd
+host:us-cdbr-east-02.cleardb.com
+database:heroku_8b16e6334be95e8
+*/
+
 connection.connect();
 
 //INITIAL ROUTES
