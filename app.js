@@ -5,7 +5,6 @@ var mysql = require('mysql');
 var session = require('express-session');
 var bcrypt = require('bcrypt');
 var app = express();
-//const request = require('request');
 var methodOverride = require('method-override');
 
 app.use(methodOverride('_method'));
@@ -19,20 +18,14 @@ app.use(session({
     saveUninitialized: true
 }));
 
-//PERMISSIONS FOR DATABASE ADMIN ACCOUNT
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'cristian',
-    password: 'cristian',
-    database: 'video_game_db'
+var connection = mysql.createPool({
+  host: "us-cdbr-east-02.cleardb.com",
+  user: "b106186f8dedb8",
+  password: "24a96bfd",
+  database: "heroku_8b16e6334be95e8"
 });
 
-module.exports = {
-  HOST: "us-cdbr-east-02.cleardb.com",
-  USER: "b106186f8dedb8",
-  PASSWORD: "24a96bfd",
-  DB: "heroku_8b16e6334be95e8"
-};
+module.exports = connection;
 
 /*
 username:b106186f8dedb8
@@ -41,7 +34,13 @@ host:us-cdbr-east-02.cleardb.com
 database:heroku_8b16e6334be95e8
 */
 
-connection.connect();
+//TO USE THE DATABASE DO THIS IN THE TERMINAL
+//mysql --host=us-cdbr-east-02.cleardb.com --user=b106186f8dedb8 --password=24a96bfd --reconnect heroku_8b16e6334be95e8
+
+//THIS IS THE NAME OF OUR TABLE WHERE USERS AND VIDEO GAMES ARE IN
+//heroku_8b16e6334be95e8
+
+//connection.connect();
 
 //INITIAL ROUTES
 //-------------------------------------------------------------------------------------
@@ -138,6 +137,7 @@ function checkPassword(password, hash){
 }
 
 //LISTENER
-app.listen(process.env.PORT,process.env.IP,function(){
-    console.log("Running Express Server...");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}.`);
 });
