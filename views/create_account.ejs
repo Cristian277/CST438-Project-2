@@ -1,0 +1,58 @@
+ <%- include ('partials/header'); -%>
+
+<div>
+    <div class="header">
+        <h1 style='font-size: 60px'>Create New Account</h1>
+    </div>
+    <div class="topnav">
+      <a href = "/">Home</a>
+      <a href = "/create_account" id = "currentPage">Create Account</a>
+      <a href = "/login">Login</a>
+    </div>   
+</div>
+
+<div class='container'>
+    <div class='jumbotron'>
+			<form action='/create_account' method='POST'>
+				<div class='form-group row'>
+					<label for='firstname' class='col-sm-4 col-form-label'>FIRST NAME</label>
+					<div class='col-sm-4'>
+						<input type='text' class='form-control' id='firstname' name='firstname' placeholder='First Name' required>
+					</div>
+				</div>
+				<div class='form-group row'>
+					<label for='lastname' class='col-sm-4 col-form-label'>LAST NAME</label>
+					<div class='col-sm-4'>
+						<input type='text' class='form-control' id='lastname' name='lastname' placeholder='Last Name' required>
+					</div>
+				</div>
+				<div class='form-group row'>
+					<label for='username' class='col-sm-4 col-form-label'>USERNAME</label>
+					<div class='col-sm-4'>
+						<input type='text' class='form-control' id='username' name='username' placeholder='Username' required>
+					</div>
+				</div>
+				<div class='form-group row'>
+					<label for='password' class='col-sm-4 col-form-label'>PASSWORD</label>
+					<div class='col-sm-4'>
+						<input type='text' class='form-control' id='password' name='password' placeholder='Password' required>
+					</div>
+				</div>
+				<div class='form-group row'>
+					<label for="password_check" id="checkingPW" class='col-sm-4 col-form-label'>RE-ENTER PASSWORD</label>
+					<div class='col-sm-4'>
+						<input type="password" class='form-control' placeholder="Password" id="password_check" name="password_check" required>
+					</div>
+				</div>
+			    <div class='form-group row'>
+					<div class='col-sm-4'></div>
+					<div class='col-sm-4'>
+						<button class='btn btn-primary btn-block'>CREATE ACCOUNT</button>
+					</div>
+					<div class='col-sm-4'></div>
+				</div>
+			</form>
+    </div>
+</div>
+
+<%- include ('partials/footer'); -%>

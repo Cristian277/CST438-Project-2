@@ -1,0 +1,33 @@
+{
+  "name": "group2_website",
+  "version": "1.0.0",
+  "description": "Testing",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ElijahHallera/Group2_Website.git"
+  },
+  "author": "Elijah",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ElijahHallera/Group2_Website/issues"
+  },
+  "homepage": "https://github.com/ElijahHallera/Group2_Website#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "jquery": "^3.5.1",
+    "jsdom": "^16.4.0",
+    "method-override": "^3.0.0",
+    "mysql": "^2.18.1",
+    "node": "^14.12.0",
+    "request": "^2.88.2"
+  }
+}
