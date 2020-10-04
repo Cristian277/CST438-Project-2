@@ -27,6 +27,7 @@ var connection = mysql.createPool({
 
 module.exports = connection;
 
+//DATABASE INFO
 /*
 username:b106186f8dedb8
 password:24a96bfd
@@ -40,7 +41,6 @@ database:heroku_8b16e6334be95e8
 //THIS IS THE NAME OF OUR TABLE WHERE USERS AND VIDEO GAMES ARE IN
 //heroku_8b16e6334be95e8
 
-//connection.connect();
 
 //INITIAL ROUTES
 //-------------------------------------------------------------------------------------
