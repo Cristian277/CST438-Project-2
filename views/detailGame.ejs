@@ -1,0 +1,44 @@
+<%- include ('partials/header'); -%>
+
+<div>
+    <div class="header">
+        <h1 style='font-size: 60px'>TITLE RESULT</h1>
+    </div>
+    <div class="topnav">
+      <a href = "/" id = "currentPage">Home</a>
+      <a href = "/account_new">Create Account</a>
+      <a href = "/login">Login</a>
+      <a href = "/searchGames">Search Games</a>
+      <a href = "/searchdevelopers">Search Game Developers</a>
+    </div>   
+</div>
+
+<div class='container'>
+    <div class='jumbotron'>
+        <div align='center'>
+            <%if(!game){%>
+                <h1 class='col-sm-14 notfound'>CANNOT FIND GAME!!!</h1>
+            <%} else {%>
+                <img class='col-sm-4 portrait' src=<%=game.cover%> />
+                </br>
+                <div class='col-sm-4 info'>
+                    <h3><%=game.title%></h3>
+                    <div><strong>Genre:</strong>&ensp;<%=game.genre%></div>
+                    <div><strong>Rating:</strong>&ensp;<%=game.rating%>/10</div>
+                    <div><strong>Pricing:</strong>&ensp;$<%=game.pricing%></div>
+                    <div><strong>Summary:</strong>&ensp;<%=game.summary%></div>
+                </div>
+            <%}%>
+        </div>
+        </br>
+        <form action='/searchGames' method='GET'>
+            <div class="text-center">
+                <button class='btn btn-primary'> Search Again</button>
+            </div>
+        </form>
+        </br>
+        <p><b>Summary provided by:</b> Wikipedia, Steam, Nintendo, and EPIC Games</p>
+    </div>
+</div>
+
+<%- include ('partials/footer'); -%>

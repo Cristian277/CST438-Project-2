@@ -1,0 +1,117 @@
+
+<%- include ('partials/header'); -%>
+
+<div>
+    <div class="header">
+        <h1 style='font-size: 60px'>Search Video Games</h1>
+    </div>
+    <div class="topnav">
+      <a href = "/" id = "currentPage">Home</a>
+      <a href = "/account_new">Create Account</a>
+      <a href = "/login">Login</a>
+      <a href = "/searchGames">Search Games</a>
+      <a href = "/searchdevelopers">Search Game Developers</a>
+    </div>   
+</div>
+
+<div class='container'>
+    <div class='jumbotron'>
+        <form action='/gameSearch' method='GET'>
+            <div class='form-group row'>
+                <label for='gameTitle' class='col-sm-4 col-form-label'>Game Title</label>
+                <div class='col-sm-4'>
+                     <select id = "gameTitle" name='gameTitle'>
+                        <option>DOOM</option>
+                        <option>Sekiro: Shadows Die Twice</option>
+                        <option>Resident Evil 2 Remake</option>
+                        <option>Death Stranding</option>
+                        <option>Control</option>
+                        <option>The Outer Worlds</option>
+                        <option>Outer Wilds</option>
+                        <option>Star Wars Fallen Order</option>
+                        <option>Apex Legends</option>
+                        <option>Zelda: Links Awakening</option>
+                        <option>Gears 5</option>
+                        <option>Astral Chain</option>
+                        <option>Devil May Cry 5</option>
+                        <option>Borderlands 3</option>
+                        <option>Days Gone</option>
+                        <option>Modern Warfare</option>
+                        <option>Metro Exodus</option>
+                        <option>Pokémon Sword and Shield</option>
+                        <option>Final Fantasy 14</option>
+                        <option>The Division 2</option>
+                    </select>
+                </div>
+                <div class='col-sm-4'>
+                    <button class='btn btn-primary btn-block'> Search </button>
+                </div>
+            </div>
+        </form>
+        
+        <form action='/genreSearch' method='GET'>
+            <div class='form-group row'>
+                <label for='gameGenre' class='col-sm-4 col-form-label'>Game Genre</label>
+                <div class='col-sm-4'>
+                     <select id = "gameGenre" name='gameGenre'>
+                        <option>FPS</option>
+                        <option>FPS</option>
+                        <option>Action</option>
+                        <option>Third-Person Shooter</option>
+                        <option>RPG</option>
+                        <option>Horror</option>
+                    </select>
+                </div>
+                <div class='col-sm-4'>
+                    <button class='btn btn-primary btn-block'> Search </button>
+                </div>
+            </div>
+        </form>
+        
+        <form action='/ratingSearch' method='GET'>
+            <div class='form-group row'>
+                <label for='gameRating' class='col-sm-4 col-form-label'>Game Rating (Select between 6-10) </label>
+                <div class='col-sm-4'>
+                     <select id = "gameRating" name='gameRating'>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                    </select>
+                </div>
+                <div class='col-sm-4'>
+                    <button class='btn btn-primary btn-block'> Search </button>
+                </div>
+            </div>
+        </form>
+        
+        <form action='/pricingSearch' method='GET'>
+            <div class='form-group row'>
+                <label for='name' class='col-sm-4 col-form-label'>Game Pricing</label>
+                <div class='col-sm-4'>
+                     <select id = "gamePricing" name='gamePricing'>
+                        <option>FREE</option>
+                        <option>9.99</option>
+                        <option>19.99</option>
+                        <option>29.99</option>
+                        <option>39.99</option>
+                        <option>49.99</option>
+                        <option>59.99</option>
+                    </select>
+                </div>
+                <div class='col-sm-4'>
+                    <button class='btn btn-primary btn-block'> Search </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<%- include ('partials/footer'); -%>

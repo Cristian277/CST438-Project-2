@@ -74,8 +74,38 @@ app.get('/create_account', function(req,res){
     res.render('create_account');
 });
 
-app.get('*', function(req, res){
-    res.render('error');
+app.get('/searchGames', function(req, res){
+    if(req.session.authenticated){
+        res.render('serachGames')
+    } else {
+        res.render('searchGames');
+    }
+});
+
+app.get('/gameSearch', function(req, res){
+    if(req.session.authenticated){
+      var sql = 'select * from videoGames where title=\''  + req.query.gameTitle + '\';'
+	    connection.query(sql, function(error, found){
+	        console.log(sql);
+	        var game = null;
+	        if(error) throw error;
+	        if(found.length){
+	            var game = found[0];
+                res.render('detailGame', {game: game, games: found});
+	        };
+	    });  
+    } else {
+        var sql = 'select * from videoGames where title=\''  + req.query.gameTitle + '\';'
+    	    connection.query(sql, function(error, found){
+    	        console.log(sql);
+    	        var game = null;
+    	        if(error) throw error;
+    	        if(found.length){
+    	            var game = found[0];
+                    res.render('detailGame', {game: game, games: found});
+    	        };
+    	 });    
+    }
 });
 
 //INSERTS THE NEW ACCOUNT INTO THE USERS TABLE BY TAKING INFO FROM CREATE ACCOUNT EJS
@@ -108,6 +138,10 @@ app.post('/login', async function(req, res){
     else{
         res.render('login', {error: true});
     }
+});
+
+app.get('*', function(req, res){
+    res.render('error');
 });
 
 //FUNCTIONS
