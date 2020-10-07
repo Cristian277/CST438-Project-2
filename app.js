@@ -74,6 +74,10 @@ app.get('/create_account', function(req,res){
     res.render('create_account');
 });
 
+app.get('/user', function(req,res){
+    res.render('user', {user: req.session.user});
+});
+
 app.get('*', function(req, res){
     res.render('error');
 });
