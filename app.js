@@ -73,10 +73,6 @@ app.get('/create_account', function(req,res){
     res.render('create_account');
 });
 
-app.get('*', function(req, res){
-    res.render('error');
-});
-
 //INSERTS THE NEW ACCOUNT INTO THE USERS TABLE BY TAKING INFO FROM CREATE ACCOUNT EJS
 app.post('/create_account', function(req, res){
     let salt = 10;
@@ -107,6 +103,36 @@ app.post('/login', async function(req, res){
     else{
         res.render('login', {error: true});
     }
+});
+
+app.get('/productDetail', function(req, res){
+    var sql = 'select * from games where name=\''  + req.query.title + '\';'
+	connection.query(sql, function(error, found){
+	    var title = null;
+	    if(error) throw error;
+	    if(found.length){
+	        title = found[0];
+	    }
+	    res.render('productDetail', {title: title});
+	});
+});
+
+//CART
+app.get('/cart', function(req, res){
+    res.render('cart');
+});
+
+//Search
+app.get('/search', function(req, res){
+    res.render('search');
+});
+
+app.get('/productDetail', function(req, res){
+    res.render('productDetail');
+});
+
+app.get('*', function(req, res){
+    res.render('error');
 });
 
 //FUNCTIONS
