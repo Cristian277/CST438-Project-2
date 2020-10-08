@@ -75,7 +75,7 @@ app.get('/create_account', function(req,res){
 
 
 app.get('/user', function(req,res){
-    res.render('user', {user: req.session.user});
+    res.render('user', {user: req.session.user, username: req.session.firstname, last: req.session.lastname});
 });
 
 app.get('*', function(req, res){
@@ -107,6 +107,8 @@ app.post('/login', async function(req, res){
         
         req.session.authenticated = true;
         req.session.user = isUserExist[0].username;
+        req.session.firstname = isUserExist[0].firstname;
+        req.session.lastname = isUserExist[0].lastname;
         
         res.redirect('/home');
     }
