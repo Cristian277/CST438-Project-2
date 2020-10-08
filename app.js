@@ -34,7 +34,8 @@ password:24a96bfd
 host:us-cdbr-east-02.cleardb.com
 database:heroku_8b16e6334be95e8
 */
-//TO IMPORT SQL FILE DO THIS ONLY IF YOU DROP THE DATABASE AND RECREATE IT (BE CAREFUL WITH THIS)
+
+//IF YOU NEED TO RESET THE DATABASE OR IF YOU UPDATED THE SQL FILE JUST PUT THIS INTO THE TERMINAL
 //mysql --host=us-cdbr-east-02.cleardb.com --user=b106186f8dedb8 --password=24a96bfd --reconnect heroku_8b16e6334be95e8 < sql/video-game-db.sql
 
 //TO USE THE DATABASE DO THIS IN THE TERMINAL
@@ -64,6 +65,14 @@ app.get('/login', function(req, res){
     res.render('login');
 });
 
+app.get('/user', function(req, res){
+    res.render('user', {user: req.session.user, username: req.session.firstname, last: req.session.lastname});
+});
+
+/*app.get('/edit', function(req,res){
+    res.render('edit', {user: req.session.user, username: req.session.firstname, last: req.session.lastname});
+});*/
+
 app.get('/logout', function(req, res){
    req.session.destroy();
    res.redirect('/');
@@ -72,6 +81,41 @@ app.get('/logout', function(req, res){
 app.get('/create_account', function(req,res){
     res.render('create_account');
 });
+
+//CART
+app.get('/cart', function(req, res){
+    res.render('cart');
+});
+
+//Search
+app.get('/search', function(req, res){
+    res.render('search');
+});
+
+
+app.get('/productDetail', function(req, res){
+    res.render('productDetail');
+});
+
+app.get('/edit', async function(req,res){
+    let current = req.session.user;
+    // var stmt = 'SELECT * FROM users WHERE userId=' + req.params.userId + ';';
+    // connection.query(stmt, function(error,result){
+    //     if(error){
+    //       console.log(stmt);
+    //       throw error;   
+    //     }
+    //     if(result.length){
+    //         var user = result[0];
+    //     }
+    //     res.render('edit', {user: user});
+    // });
+    
+    
+    res.render('edit', {user: req.session.user, username: req.session.firstname, last: req.session.lastname, muser: current});
+});
+
+
 
 app.get('*', function(req, res){
     res.render('error');
@@ -101,6 +145,8 @@ app.post('/login', async function(req, res){
         
         req.session.authenticated = true;
         req.session.user = isUserExist[0].username;
+        req.session.firstname = isUserExist[0].firstname;
+        req.session.lastname = isUserExist[0].lastname;
         
         res.redirect('/home');
     }
@@ -108,6 +154,23 @@ app.post('/login', async function(req, res){
         res.render('login', {error: true});
     }
 });
+
+app.get('/productDetail', function(req, res){
+    var sql = 'select * from games where name=\''  + req.query.title + '\';'
+	connection.query(sql, function(error, found){
+	    var title = null;
+	    if(error) throw error;
+	    if(found.length){
+	        title = found[0];
+	    }
+	    res.render('productDetail', {title: title});
+	});
+});
+
+
+
+
+
 
 //FUNCTIONS
 //-------------------------------------------------------------------------------------------
