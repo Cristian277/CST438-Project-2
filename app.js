@@ -173,3 +173,109 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
+
+
+//NEW ADD CART
+app.get('/cart/:aid/add', function(req,res){
+    
+    var username = req.session.user;
+    
+    var statement = 'select userId ' +
+               'from users ' +
+               'where users.username=\'' 
+                + username + '\';'
+    
+    connection.query(statement,function(error, results){
+        
+        if(error) throw error;
+        
+        var usersId = results[0].userId;
+        
+        connection.query('SELECT COUNT(*) FROM games', function(error,results){
+        
+        if(error) throw error;
+        
+        if(results.length){
+            
+            console.log(results);
+            
+            //var recipeId = results[0]['COUNT(*)'] + 1;
+            
+            //RETRIEVING RECIPE
+             var statement = 'select * ' +
+               'from games ' +
+               'where games.gameId=\'' 
+                + req.params.aid + '\';'
+        
+            connection.query(statement,function(error,results) {
+                
+                var games = results[0];
+                
+                var stmt = 'INSERT INTO games ' + 
+                '(`userId`, `name`,`image`,`yearMade`,genre`) ' +
+                'VALUES ' +
+                '(' +
+                usersId + ',"' +
+                games.name + '",' +
+                games.image + ',"' +
+                games.yearMade + '",' +
+                games.genre + ',"' +
+                '"' +
+                ');';
+                
+                console.log(stmt);
+                
+                connection.query(stmt, function(error, result) {
+                    
+                if(error) throw error;
+                
+               // res.redirect('/');
+            });
+        });
+            
+    }
+});
+});
+});
+
+
+
+//DELETE A GAME FROM USER CART 
+app.get('/cart/:aid/delete', function(req, res){
+    var stmt = 'DELETE from games WHERE games.gameId='+ req.params.aid + ';';
+    connection.query(stmt, function(error, result){
+        if(error) throw error;
+        res.redirect('/');
+    });
+});
+
+
+//ROUTE TO SHOW USERS CART
+app.get('/cart', isAuthenticatedHome, function(req,res){
+    
+    var username = req.session.user;
+    var statement = 'select userId ' +
+    
+               'from users ' +
+               'where users.username=\'' 
+                + username + '\';'
+    
+    connection.query(statement,function(error, results){
+        
+        if(error) throw error;
+        
+        var usersId = results[0].userId;
+               
+        var stmt = 'select gameId, name, image, yearMade, genre ' +
+               'from games ' +
+               'where games.userId=\'' 
+                + usersId + '\';'
+               
+    connection.query(stmt, function(error, results){
+        
+        if(error) throw error;
+        
+        res.render('cart', {gamesInfo:results});  //both name and quotes are passed to quotes view     
+    });
+});
+});
