@@ -85,6 +85,10 @@ app.get('/search', function(req, res){
 
 app.get('/productDetail', function(req, res){
     res.render('productDetail');
+=======
+
+app.get('/user', function(req,res){
+    res.render('user', {user: req.session.user});
 });
 
 app.get('*', function(req, res){
