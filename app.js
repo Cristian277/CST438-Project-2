@@ -34,10 +34,11 @@ password:24a96bfd
 host:us-cdbr-east-02.cleardb.com
 database:heroku_8b16e6334be95e8
 */
+
 //IF YOU NEED TO RESET THE DATABASE OR IF YOU UPDATED THE SQL FILE JUST PUT THIS INTO THE TERMINAL
 //mysql --host=us-cdbr-east-02.cleardb.com --user=b106186f8dedb8 --password=24a96bfd --reconnect heroku_8b16e6334be95e8 < sql/video-game-db.sql
 
-//TO USE THE DATABASE IF YOU WANT TO LOOK AT THE TABLES AND DATA DO THIS IN THE TERMINAL
+//TO USE THE DATABASE DO THIS IN THE TERMINAL
 //mysql --host=us-cdbr-east-02.cleardb.com --user=b106186f8dedb8 --password=24a96bfd --reconnect heroku_8b16e6334be95e8
 
 //THIS IS THE NAME OF OUR TABLE WHERE USERS AND VIDEO GAMES ARE IN
@@ -85,10 +86,6 @@ app.get('/search', function(req, res){
 
 app.get('/productDetail', function(req, res){
     res.render('productDetail');
-=======
-
-app.get('/user', function(req,res){
-    res.render('user', {user: req.session.user});
 });
 
 app.get('*', function(req, res){
