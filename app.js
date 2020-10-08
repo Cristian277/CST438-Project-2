@@ -34,11 +34,10 @@ password:24a96bfd
 host:us-cdbr-east-02.cleardb.com
 database:heroku_8b16e6334be95e8
 */
-
-//TO IMPORT SQL FILE DO THIS ONLY IF YOU DROP THE DATABASE AND RECREATE IT (BE CAREFUL WITH THIS)
+//IF YOU NEED TO RESET THE DATABASE OR IF YOU UPDATED THE SQL FILE JUST PUT THIS INTO THE TERMINAL
 //mysql --host=us-cdbr-east-02.cleardb.com --user=b106186f8dedb8 --password=24a96bfd --reconnect heroku_8b16e6334be95e8 < sql/video-game-db.sql
 
-//TO USE THE DATABASE DO THIS IN THE TERMINAL
+//TO USE THE DATABASE IF YOU WANT TO LOOK AT THE TABLES AND DATA DO THIS IN THE TERMINAL
 //mysql --host=us-cdbr-east-02.cleardb.com --user=b106186f8dedb8 --password=24a96bfd --reconnect heroku_8b16e6334be95e8
 
 //THIS IS THE NAME OF OUR TABLE WHERE USERS AND VIDEO GAMES ARE IN
@@ -74,6 +73,7 @@ app.get('/create_account', function(req,res){
     res.render('create_account');
 });
 
+<<<<<<< HEAD
 app.get('/user', function(req,res){
     res.render('user', {user: req.session.user});
 });
@@ -82,6 +82,8 @@ app.get('*', function(req, res){
     res.render('error');
 });
 
+=======
+>>>>>>> c59dadc737939b7fbf61677e4365780e64e968e3
 //INSERTS THE NEW ACCOUNT INTO THE USERS TABLE BY TAKING INFO FROM CREATE ACCOUNT EJS
 app.post('/create_account', function(req, res){
     let salt = 10;
@@ -112,6 +114,36 @@ app.post('/login', async function(req, res){
     else{
         res.render('login', {error: true});
     }
+});
+
+app.get('/productDetail', function(req, res){
+    var sql = 'select * from games where name=\''  + req.query.title + '\';'
+	connection.query(sql, function(error, found){
+	    var title = null;
+	    if(error) throw error;
+	    if(found.length){
+	        title = found[0];
+	    }
+	    res.render('productDetail', {title: title});
+	});
+});
+
+//CART
+app.get('/cart', function(req, res){
+    res.render('cart');
+});
+
+//Search
+app.get('/search', function(req, res){
+    res.render('search');
+});
+
+app.get('/productDetail', function(req, res){
+    res.render('productDetail');
+});
+
+app.get('*', function(req, res){
+    res.render('error');
 });
 
 //FUNCTIONS

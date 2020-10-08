@@ -33,8 +33,9 @@ CREATE TABLE `games` (
 
 INSERT INTO `games` (`gameId`, `userId`, `name`,`image`,`yearMade`,`genre`) VALUES
 (1,NULL,'Halo 3','https://www.halopedia.org/images/thumb/e/e5/Halo3coverart.JPG/1200px-Halo3coverart.JPG',2007,'First Person Shooter'),
-(2,NULL,'Halo 4','https://www.mobygames.com/images/covers/l/281470-halo-4-xbox-360-front-cover.jpg',2012,'First Person Shooter');
-
+(2,NULL,'Sekiro: Shadows Die Twice', 'https://upload.wikimedia.org/wikipedia/en/thumb/6/6e/Sekiro_art.jpg/220px-Sekiro_art.jpg', 2019, 'Action'),
+(3,NULL, 'The Division 2', 'https://upload.wikimedia.org/wikipedia/en/a/af/The_Division_2_art.jpg', 2019, 'Third-Person Shooter'),
+(4,NULL,'Halo 4','https://www.mobygames.com/images/covers/l/281470-halo-4-xbox-360-front-cover.jpg',2012,'First Person Shooter');
 
 ALTER TABLE `users`
   ADD PRIMARY KEY (`userId`);
