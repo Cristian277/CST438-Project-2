@@ -1,0 +1,61 @@
+<%- include ('partials/header'); -%>
+
+    <div>
+        <div class="header">
+            <h1 style='font-size: 60px'>Video Game Store</b></h1>
+            <h4>Signed in as <%=user%></h4>
+        </div>
+        </div>
+        <div class="topnav">
+            <a href = "/" id = "currentPage">Home</a>
+        </div>   
+    </div>
+    
+    <div class='container'>
+        <div class='jumbotron'>
+            <div align='center'>
+                <strong>
+                    <p>Edit your account credentials.</p>    
+                </strong>
+                
+                <form action='/editInfo?_method=PUT' method='POST'>
+				<div class='form-group row'>
+					<label for='firstname' class='col-sm-4 col-form-label'>FIRST NAME</label>
+					<div class='col-sm-4'>
+						<input type='text' class='form-control' id='firstname' name='firstname' placeholder='<%=username%>' required>
+					</div>
+				</div>
+				<div class='form-group row'>
+					<label for='lastname' class='col-sm-4 col-form-label'>LAST NAME</label>
+					<div class='col-sm-4'>
+						<input type='text' class='form-control' id='lastname' name='lastname' placeholder='<%=last%>' required>
+					</div>
+				</div>
+				<div class='form-group row'>
+					<label for='username' class='col-sm-4 col-form-label'>USERNAME</label>
+					<div class='col-sm-4'>
+						<input type='text' class='form-control' id='username' name='username' placeholder='<%=user%>' required>
+					</div>
+				</div>
+				<div class='form-group row'>
+					<label for='password' class='col-sm-4 col-form-label'>PASSWORD</label>
+					<div class='col-sm-4'>
+						<input type='text' class='form-control' id='password' name='password' placeholder='<%=muser.password%>' required>
+					</div>
+				</div>
+				
+			    <div class='form-group row'>
+					<div class='col-sm-4'></div>
+					<div class='col-sm-4'>
+						<button class='btn btn-primary btn-block'>Edit Account</button>
+					</div>
+					<div class='col-sm-4'></div>
+				</div>
+			</form>
+                
+            </div>
+            </br>
+        </div>
+    </div>
+    
+<%- include ('partials/footer'); -%>

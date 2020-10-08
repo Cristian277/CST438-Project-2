@@ -65,6 +65,14 @@ app.get('/login', function(req, res){
     res.render('login');
 });
 
+app.get('/user', function(req, res){
+    res.render('user', {user: req.session.user, username: req.session.firstname, last: req.session.lastname});
+});
+
+/*app.get('/edit', function(req,res){
+    res.render('edit', {user: req.session.user, username: req.session.firstname, last: req.session.lastname});
+});*/
+
 app.get('/logout', function(req, res){
    req.session.destroy();
    res.redirect('/');
@@ -84,14 +92,30 @@ app.get('/search', function(req, res){
     res.render('search');
 });
 
-<<<<<<< HEAD
-app.get('/user', function(req,res){
-    res.render('user', {user: req.session.user, username: req.session.firstname, last: req.session.lastname});
-=======
+
 app.get('/productDetail', function(req, res){
     res.render('productDetail');
->>>>>>> cb10714a9a01a9c1cf2c3b009957457d2a42484b
 });
+
+app.get('/edit', async function(req,res){
+    let current = req.session.user;
+    // var stmt = 'SELECT * FROM users WHERE userId=' + req.params.userId + ';';
+    // connection.query(stmt, function(error,result){
+    //     if(error){
+    //       console.log(stmt);
+    //       throw error;   
+    //     }
+    //     if(result.length){
+    //         var user = result[0];
+    //     }
+    //     res.render('edit', {user: user});
+    // });
+    
+    
+    res.render('edit', {user: req.session.user, username: req.session.firstname, last: req.session.lastname, muser: current});
+});
+
+
 
 app.get('*', function(req, res){
     res.render('error');
@@ -142,6 +166,11 @@ app.get('/productDetail', function(req, res){
 	    res.render('productDetail', {title: title});
 	});
 });
+
+
+
+
+
 
 //FUNCTIONS
 //-------------------------------------------------------------------------------------------
