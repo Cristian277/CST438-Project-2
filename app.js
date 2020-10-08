@@ -44,7 +44,6 @@ database:heroku_8b16e6334be95e8
 //THIS IS THE NAME OF OUR TABLE WHERE USERS AND VIDEO GAMES ARE IN
 //heroku_8b16e6334be95e8
 
-
 //INITIAL ROUTES
 //-------------------------------------------------------------------------------------
 app.get("/homeSignedIn", async function(req,res){
@@ -90,6 +89,10 @@ app.get('/productDetail', function(req, res){
 
 app.get('*', function(req, res){
     res.render('error');
+});
+
+app.get('/user', function(req,res){
+    res.render('user', {user: req.session.user, username: req.session.firstname, last: req.session.lastname});
 });
 
 //INSERTS THE NEW ACCOUNT INTO THE USERS TABLE BY TAKING INFO FROM CREATE ACCOUNT EJS
