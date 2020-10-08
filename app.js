@@ -73,6 +73,24 @@ app.get('/create_account', function(req,res){
     res.render('create_account');
 });
 
+//CART
+app.get('/cart', function(req, res){
+    res.render('cart');
+});
+
+//Search
+app.get('/search', function(req, res){
+    res.render('search');
+});
+
+app.get('/productDetail', function(req, res){
+    res.render('productDetail');
+});
+
+app.get('*', function(req, res){
+    res.render('error');
+});
+
 //INSERTS THE NEW ACCOUNT INTO THE USERS TABLE BY TAKING INFO FROM CREATE ACCOUNT EJS
 app.post('/create_account', function(req, res){
     let salt = 10;
@@ -115,24 +133,6 @@ app.get('/productDetail', function(req, res){
 	    }
 	    res.render('productDetail', {title: title});
 	});
-});
-
-//CART
-app.get('/cart', function(req, res){
-    res.render('cart');
-});
-
-//Search
-app.get('/search', function(req, res){
-    res.render('search');
-});
-
-app.get('/productDetail', function(req, res){
-    res.render('productDetail');
-});
-
-app.get('*', function(req, res){
-    res.render('error');
 });
 
 //FUNCTIONS
