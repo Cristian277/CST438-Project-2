@@ -73,7 +73,7 @@ app.get('/create_account', function(req,res){
     res.render('create_account');
 });
 
-<<<<<<< HEAD
+
 app.get('/user', function(req,res){
     res.render('user', {user: req.session.user});
 });
@@ -82,8 +82,7 @@ app.get('*', function(req, res){
     res.render('error');
 });
 
-=======
->>>>>>> c59dadc737939b7fbf61677e4365780e64e968e3
+
 //INSERTS THE NEW ACCOUNT INTO THE USERS TABLE BY TAKING INFO FROM CREATE ACCOUNT EJS
 app.post('/create_account', function(req, res){
     let salt = 10;
