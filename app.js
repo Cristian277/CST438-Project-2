@@ -117,9 +117,7 @@ app.get('/edit', async function(req,res){
 
 
 
-app.get('*', function(req, res){
-    res.render('error');
-});
+
 
 //INSERTS THE NEW ACCOUNT INTO THE USERS TABLE BY TAKING INFO FROM CREATE ACCOUNT EJS
 app.post('/create_account', function(req, res){
@@ -169,7 +167,9 @@ app.get('/productDetail', function(req, res){
 
 
 
-
+app.get('*', function(req, res){
+    res.render('error');
+});
 
 
 //FUNCTIONS
