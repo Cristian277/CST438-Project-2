@@ -23,31 +23,25 @@
             <div class='col-sm-4'></div>
         </div>
     </div>
-    <figure id="results">
-    <div class='row'>
         <%if(!title){%>
+        <div class='row'>
             <h1 class='col-sm-12 notfound'>Title was not found!</h1>
+            </div>
         <%}
         else{%>
-        <img class='col-sm-4 portrait' src=<%=title.image%> />
-		    <div class='col-sm-4 info'>
-		        <h5><strong>Title:</strong> <%=title.name%></h5>
-		        <h5><strong>Year Made:</strong> <%=title.yearMade%></h5>
-		        <h5><strong>Genre:</strong> <%=title.genre%></h5>
-		        <h5><strong>Summary:</strong><%=title.summary%></h5>
-		    </div>
-        <%}%>
-	</div>
-	</br>
-    
-    <%if(!title){%>
-        <%}
-        else{%>
-    <form action="/cart/<%=title.gameId%>/add" method="GET">
+        <figure id="results">
+            <img src='<%=title.image%>' width='200' id="images">
+            <br><br>
+            <h5><strong>Game Name:</strong> <%=title.name%></h5>
+            <h5><strong>Year Made:</strong> <%=title.yearMade%></h5>
+            <h5><strong>Genre:</strong> <%=title.genre%></h5>
+            <h5><strong>Summary:</strong> <%=title.summary%></h5>
+	    <form action="/cart/<%=title.gameId%>/add" method="GET">
 			<button class='btn btn-primary btn-block'>Add to Cart</button>
-	</form>
-	<%}%>
-	</figure>
+	   </form>
+            </figure>
+        <%}%>
+	</br>
 </div>
 
 <%- include ('partials/footer'); -%>
