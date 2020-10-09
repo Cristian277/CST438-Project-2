@@ -6,10 +6,10 @@
     </div>
     <div class="topnav">
       <a href = "/">Home</a>
-      <a href = "/create_account" id = "currentPage">Create Account</a>
-      <a href = "/login">Login</a>
+      <a href="/user">User Account</a>
       <a href = "/search">Search</a>
       <a href = "/cart">Cart</a>
+      <a href="/logout">Log Out</a>
     </div>   
 </div>
 
@@ -22,5 +22,20 @@
         </br>
     </div>
 </div>
+
+ <%gamesInfo.forEach(function(games){%>
+            
+            <figure id="results">
+            <img src='<%=games.image%>' width='200' id="images">
+            <h5>Game Name: <%=games.name%></h5>
+            <h5>Year Made: <%=games.yearMade%></h5>
+            <h5>Genre: <%=games.genre%></h5>
+            <h5>Summary: <%=games.summary%></h5>
+        
+            <a href='/cart/<%=games.gameId%>/delete'>Delete</a>
+            <br>
+            </figure>
+            
+        <%});%>
 
 <%- include ('partials/footer'); -%>
