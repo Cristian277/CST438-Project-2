@@ -1,7 +1,18 @@
 <%- include ('partials/header'); -%>
 
-</br>
-</br>
+    <div>
+        <div class="header">
+            <h1 style='font-size: 60px'>Video Game Store</b></h1>
+        </div>
+        </div>
+
+<div class="topnav">
+            <a href = "/" id = "currentPage">Home</a>
+            <a href="/user">User Account</a>
+            <a href="/search"><strong>Search</strong></a>
+            <a href="/cart">Cart</a>
+            <a href="/logout">Log Out</a>
+        </div> 
 
 <div class='container'>
     <div class='jumbotron'>
@@ -12,34 +23,31 @@
             <div class='col-sm-4'></div>
         </div>
     </div>
-    
+    <figure id="results">
     <div class='row'>
         <%if(!title){%>
-            <h1 class='col-sm-12 notfound'>Video Game Not Found!</h1>
+            <h1 class='col-sm-12 notfound'>Title was not found!</h1>
         <%}
         else{%>
         <img class='col-sm-4 portrait' src=<%=title.image%> />
 		    <div class='col-sm-4 info'>
-		        <h3><%=title.name%></h3>
-		        <h3><%=title.yearMade%></h3>
-		        <h3><%=title.genre%></h3>
-		        <h1><%=title.summary%></h1>
+		        <h5><strong>Title:</strong> <%=title.name%></h5>
+		        <h5><strong>Year Made:</strong> <%=title.yearMade%></h5>
+		        <h5><strong>Genre:</strong> <%=title.genre%></h5>
+		        <h5><strong>Summary:</strong><%=title.summary%></h5>
 		    </div>
         <%}%>
 	</div>
 	</br>
-    </br>
+    
+    <%if(!title){%>
+        <%}
+        else{%>
     <form action="/cart/<%=title.gameId%>/add" method="GET">
-            
 			<button class='btn btn-primary btn-block'>Add to Cart</button>
-			
 	</form>
+	<%}%>
+	</figure>
 </div>
 
-</br>
-</br>
-
 <%- include ('partials/footer'); -%>
-
-</br>
-</br>

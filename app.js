@@ -168,8 +168,6 @@ app.get('/cart/:aid/add', function(req,res){
             
             console.log(results);
             
-            //var recipeId = results[0]['COUNT(*)'] + 1;
-            
             //RETRIEVING RECIPE
              var statement = 'select * ' +
                'from games ' +

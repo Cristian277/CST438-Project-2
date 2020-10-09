@@ -2,22 +2,22 @@
 
 <div>
     <div class="header">
-        <h1 style='font-size: 60px'>Create New Account</h1>
+        <h1 style='font-size: 60px'>Video Game Store</h1>
     </div>
     <div class="topnav">
-      <a href = "/">Home</a>
-      <a href="/user">User Account</a>
-      <a href = "/search">Search</a>
-      <a href = "/cart">Cart</a>
-      <a href="/logout">Log Out</a>
-    </div>   
+        <a href = "/" id = "currentPage">Home</a>
+        <a href="/user">User Account</a>
+        <a href="/search">Search</a>
+        <a href="/cart"><strong>Cart</strong></a>
+        <a href="/logout">Log Out</a>
+    </div>  
 </div>
 
 <div class='container'>
     <div class='jumbotron'>
         <div align='center'>
             <div id="content">
-            <h1> Shopping Cart</h1>
+            <h2><strong>Shopping Cart</strong></h2>
         </div>
         </br>
     </div>
@@ -27,15 +27,17 @@
             
             <figure id="results">
             <img src='<%=games.image%>' width='200' id="images">
-            <h5>Game Name: <%=games.name%></h5>
-            <h5>Year Made: <%=games.yearMade%></h5>
-            <h5>Genre: <%=games.genre%></h5>
-            <h5>Summary: <%=games.summary%></h5>
-        
-            <a href='/cart/<%=games.gameId%>/delete'>Delete</a>
-            <br>
+            <br><br>
+            <h5><strong>Game Name:</strong> <%=games.name%></h5>
+            <h5><strong>Year Made:</strong> <%=games.yearMade%></h5>
+            <h5><strong>Genre:</strong> <%=games.genre%></h5>
+            <h5><strong>Summary:</strong> <%=games.summary%></h5>
+            
+            <form action="/cart/<%=games.gameId%>/delete" method="GET">
+			<button class='btn btn-primary btn-block'>Remove From Cart</button>
+	        </form>
             </figure>
             
         <%});%>
-
+        
 <%- include ('partials/footer'); -%>
