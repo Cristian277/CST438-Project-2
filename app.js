@@ -43,6 +43,13 @@ database:heroku_8b16e6334be95e8
 //THIS IS THE NAME OF OUR TABLE WHERE USERS AND VIDEO GAMES ARE IN
 //heroku_8b16e6334be95e8
 
+/*
+INSERT INTO `users` (`userId`,`firstname`,`lastname`,`username`,`password`) VALUES
+(1,'Cristian','Arredondo','CristianArredondo123','123'),
+(2,'Christian','Jimenez','ChristianJimenez123','1234'),
+(3,'Victor','Cuin','VictorCuin123','12345'),
+(4,'Elijah','Hallera','ElijahHallera123','123456');
+*/
 
 //INITIAL ROUTES
 //-------------------------------------------------------------------------------------
@@ -74,7 +81,22 @@ app.get('/create_account', function(req,res){
 });
 
 app.get('/user', function(req, res){
-    res.render('user', {user: req.session.user, username: req.session.firstname, last: req.session.lastname});
+    var username = req.session.user;
+    var statement = 'select firstname,lastname ' +
+               'from users ' +
+               'where users.username=\'' 
+                + username + '\';'
+                
+    connection.query(statement,function(error, results){
+        
+        if(error) throw error;
+        
+        var firstname = results[0].firstname;
+        var lastname = results[0].lastname;
+        
+        res.render('user', {user: req.session.user, firstname:firstname, lastname:lastname});
+        
+    });
 });
 
 //INSERTS THE NEW ACCOUNT INTO THE USERS TABLE BY TAKING INFO FROM CREATE ACCOUNT EJS
@@ -102,7 +124,8 @@ app.post('/login', async function(req, res){
         req.session.authenticated = true;
         req.session.user = isUserExist[0].username;
         
-        res.redirect('/home');
+        //CHECK BACK HERE
+        res.redirect('/');
     }
     else{
         res.render('login', {error: true});
@@ -177,7 +200,6 @@ app.get('/cart/:aid/add', function(req,res){
                res.redirect('/');
             });
         });
-            
     }
 });
 });
@@ -197,7 +219,6 @@ app.get('/cart', isAuthenticatedHome, function(req,res){
     
     var username = req.session.user;
     var statement = 'select userId ' +
-    
                'from users ' +
                'where users.username=\'' 
                 + username + '\';'
