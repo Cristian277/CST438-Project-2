@@ -148,8 +148,6 @@ app.put('/users/:userId', function(req, res){
         } 
         res.redirect('/user');
     });
-    
-    
 });
 
 
