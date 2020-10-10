@@ -97,11 +97,15 @@ app.get('/edit', async function(req,res){
     // });
     
     
-    res.render('edit', {user: req.session.user, username: req.session.firstname, last: req.session.lastname, muser: current});
+    res.render('edit', {user: req.session.user, username: req.session.firstname, last: req.session.lastname, password: req.session.password, userId: req.session.userId});
 });
+
+
 
 app.get('/user', function(req, res){
     var username = req.session.user;
+    //var firstname;
+    //var lastname;
     var statement = 'select firstname,lastname ' +
                'from users ' +
                'where users.username=\'' 
@@ -111,12 +115,41 @@ app.get('/user', function(req, res){
         
         if(error) throw error;
         
-        var firstname = results[0].firstname;
-        var lastname = results[0].lastname;
+        //firstname = results[0].firstname;
+        //lastname = results[0].lastname;
         
-        res.render('user', {user: req.session.user, firstname:firstname, lastname:lastname});
+        res.render('user', {user: req.session.user, firstname:req.session.firstname, lastname:req.session.lastname, password: req.session.password, userId: req.session.userId});
         
     });
+});
+
+app.put('/users/:userId', function(req, res){
+    var first = req.body.firstname;
+    var last = req.body.lastname;
+    var username = req.body.username;
+    
+    var stmt = 'UPDATE users SET ' +
+                'firstname = "' +
+                req.body.firstname +
+                '",' +
+                'lastname = "' +
+                req.body.lastname +
+                '",' +
+                'username = "' +
+                req.body.username +
+                '"' +
+                'WHERE userId = ' +
+                req.session.userId +
+                ';';
+    connection.query(stmt, function(error, result){
+        if(error){
+          console.log("didnt work");
+          throw error;  
+        } 
+        res.redirect('/user');
+    });
+    
+    
 });
 
 
@@ -146,6 +179,8 @@ app.post('/login', async function(req, res){
         req.session.user = isUserExist[0].username;
         req.session.firstname = isUserExist[0].firstname;
         req.session.lastname = isUserExist[0].lastname;
+        req.session.password = req.body.password;
+        req.session.userId = isUserExist[0].userId;
         
         //CHECK BACK HERE
         res.redirect('/');
