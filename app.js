@@ -71,13 +71,6 @@ app.get('/login', function(req, res){
     res.render('login');
 });
 
-// app.get('/user', function(req, res){
-//     res.render('user', {user: req.session.user, username: req.session.firstname, last: req.session.lastname});
-// });
-
-/*app.get('/edit', function(req,res){
-    res.render('edit', {user: req.session.user, username: req.session.firstname, last: req.session.lastname});
-});*/
 
 app.get('/logout', function(req, res){
    req.session.destroy();
