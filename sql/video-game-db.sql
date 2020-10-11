@@ -14,12 +14,6 @@ CREATE TABLE `users` (
   `userMoney` DOUBLE(16,2) DEFAULT 100.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-INSERT INTO `users` (`userId`,`firstname`,`lastname`,`username`,`password`) VALUES
-(1,'Cristian','Arredondo','CristianArredondo123','123'),
-(2,'Christian','Jimenez','ChristianJimenez123','1234'),
-(3,'Victor','Cuin','VictorCuin123','12345'),
-(4,'Elijah','Hallera','ElijahHallera123','123456');
-
 DROP TABLE IF EXISTS `games`;
 
 CREATE TABLE `games` (

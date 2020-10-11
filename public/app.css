@@ -2,6 +2,12 @@
     background-color: #CC5500;
     padding-bottom: 5px;
     padding-top: 10px;
+    opacity:0.97;
+}
+
+#wallpaper{
+  background-image: url("/img/wp2276152.jpg")!important;
+  background-size: 40%;
 }
 
 .footer{
@@ -13,7 +19,7 @@
   text-align: center;
   background: #CC5500;
   color: black;
-  opacity: 0.75;
+  opacity: 0.90;
 }
 
 /* Add a black background color to the top navigation */
@@ -52,4 +58,12 @@
 
 .btn{
   background-color: #333
+}
+
+#results{
+  text-align: left;
+  text-justify: inter-word;
+  background: rgba(0,0,0,0.5);
+  border-radius: 15px 50px 30px 5px;
+  color:white;
 }
