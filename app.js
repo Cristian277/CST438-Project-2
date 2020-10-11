@@ -100,12 +100,9 @@ app.get('/edit', async function(req,res){
     res.render('edit', {user: req.session.user, username: req.session.firstname, last: req.session.lastname, password: req.session.password, userId: req.session.userId});
 });
 
-
-
 app.get('/user', function(req, res){
     var username = req.session.user;
-    //var firstname;
-    //var lastname;
+    
     var statement = 'select firstname,lastname ' +
                'from users ' +
                'where users.username=\'' 
@@ -114,9 +111,6 @@ app.get('/user', function(req, res){
     connection.query(statement,function(error, results){
         
         if(error) throw error;
-        
-        //firstname = results[0].firstname;
-        //lastname = results[0].lastname;
         
         res.render('user', {user: req.session.user, firstname:req.session.firstname, lastname:req.session.lastname, password: req.session.password, userId: req.session.userId});
         
@@ -199,7 +193,6 @@ app.get('/productDetail', function(req, res){
 	    res.render('productDetail', {title: title});
 	});
 });
-
 
 //NEW ADD CART
 app.get('/cart/:aid/add', function(req,res){
@@ -305,11 +298,11 @@ app.get('/cart', function(req, res){
 
 //Search
 app.get('/search', function(req, res){
-    res.render('search');
+    res.render('search',{user: req.session.user});
 });
 
 app.get('/productDetail', function(req, res){
-    res.render('productDetail');
+    res.render('productDetail',{user: req.session.user});
 });
 
 app.get('*', function(req, res){
