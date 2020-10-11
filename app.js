@@ -307,7 +307,7 @@ app.get('/gameList', isAuthenticatedHome, function(req,res){
         
         var usersId = results[0].userId; //holds userId
         
-        var stmt = 'SELECT games.gameId,games.image, games.name, games.yearMade, games.genre, games.summary '+
+        var stmt = 'SELECT gameId, image, name, yearMade, genre '+
         'FROM games WHERE games.userId=\''
                 + 0 + '\';'
     connection.query(stmt, function(error, results){
