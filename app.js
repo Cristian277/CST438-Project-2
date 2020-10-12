@@ -290,6 +290,33 @@ app.get('/cart', isAuthenticatedHome, function(req,res){
 });
 });
 
+//ROUTE TO SHOW DATABASE GAMESLIST
+app.get('/gameList', isAuthenticatedHome, function(req,res){
+    
+    var username = req.session.user;
+    
+    var statement = 'select userId ' +
+               'from users ' +
+               'where users.username=\''
+                + username + '\';'
+                
+    connection.query(statement,function(error, results){
+        
+        if(error) throw error;
+        
+        var usersId = results[0].userId; //holds userId
+        
+        var stmt = 'SELECT gameId, image, name, yearMade, genre '+
+        'FROM games WHERE games.userId=\''
+                + 0 + '\';'
+    connection.query(stmt, function(error, results){
+        if(error) throw error;
+        res.render('gameList',{gamesInfo : results});  //both name and quotes are passed to quotes view
+    });
+});
+});
+
+
 //CART
 app.get('/cart', function(req, res){
     res.render('cart');
