@@ -1,0 +1,60 @@
+<%- include ('partials/header'); -%>
+
+<div>
+    <div class="header">
+        <h1 style='font-size: 60px'>RNG Game Picker</h1>
+    </div>
+    <div class="topnav">
+      <a href = "/">Home</a>
+      <a href="/user">User Account</a>
+      <a href = "/search"><strong>Search</strong></a>
+      <a href="/gameList">Game List</a>
+      <a href = "/cart">Cart</a>
+      <a href="/logout">Log Out</a>
+    </div>   
+</div>
+
+<div class='container'>
+    <div class='jumbotron'>
+        <div align='center'>
+            <p><strong>Click the button to get a random game!</strong></p>
+            <button onclick="randomGame()">Do it!</button>
+            <p id="RNG"></p>
+            <img class='col-sm-4 portrait' id='gameCover' src= />
+            </br>
+            <div class='col-sm-4 info'>
+                <h3 id='title'></h3>
+                
+                <div><strong>Genre:</strong>&ensp;<div id='genre'></div></div>
+                <div><strong>Pricing:</strong>&ensp;$<div id='pricing'></div></div>
+                <div><strong>Summary:</strong>&ensp;<div id='summary'></div></div>
+            </div>
+        </div>
+        </br>
+    </div>
+</div>
+
+<script>
+function randomGame() {
+    var x = document.getElementById("RNG");
+    x = Math.floor((Math.random() * 13) + 1);
+    $.ajax({
+        url: '/randomGenerator',
+        type: 'POST',
+        data: {
+            x: x
+        },
+        success: function(data){
+            console.log(data);
+            $('#RNG').html(data[x].gameId);
+            $('#image').attr('src', `${data[x].image}`);
+            $('#title').html(data[x].title);
+            $('#genre').html(data[x].genre);
+            $('#pricing').html(data[x].pricing);
+            $('#summary').html(data[x].summary);
+        }
+    });
+}
+</script>
+
+<%- include ('partials/footer'); -%>
