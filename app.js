@@ -316,6 +316,21 @@ app.get('/gameList', isAuthenticatedHome, function(req,res){
 });
 });
 
+app.get('/randomGenerator', function(req, res){
+    res.render('randomGenerator');
+});
+
+app.post('/randomGenerator', function(req, res){
+    var stmt = 'SELECT * FROM games;';
+    console.log(stmt);
+    var games = null;
+    connection.query(stmt, function(error, results){
+        if(error) throw error;
+        if(results.length) games = results;
+        res.send(games);
+        });
+});
+
 
 //CART
 app.get('/cart', function(req, res){
