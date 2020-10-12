@@ -228,14 +228,15 @@ app.get('/cart/:aid/add', function(req,res){
                 var games = results[0];
                 
                 var stmt = 'INSERT INTO games ' + 
-                '(`userId`, `name`,`image`,`yearMade`,`genre`) ' +
+                '(`userId`, `name`,`image`,`yearMade`,`genre`,`summary`) ' +
                 'VALUES ' +
                 '(' +
                 usersId + ',"' +
                 games.name + '","' +
                 games.image + '",' +
                 games.yearMade + ',"' +
-                games.genre + '"' +
+                games.genre + '","' +
+                games.summary + '"' +
                 ');';
                 
                 console.log(stmt);
@@ -276,7 +277,7 @@ app.get('/cart', isAuthenticatedHome, function(req,res){
         
         var usersId = results[0].userId;
                
-        var stmt = 'select gameId, name, image, yearMade, genre ' +
+        var stmt = 'select * ' +
                'from games ' +
                'where games.userId=\'' 
                 + usersId + '\';'
@@ -306,7 +307,7 @@ app.get('/gameList', isAuthenticatedHome, function(req,res){
         
         var usersId = results[0].userId; //holds userId
         
-        var stmt = 'SELECT gameId, image, name, yearMade, genre '+
+        var stmt = 'SELECT * '+
         'FROM games WHERE games.userId=\''
                 + 0 + '\';'
     connection.query(stmt, function(error, results){
