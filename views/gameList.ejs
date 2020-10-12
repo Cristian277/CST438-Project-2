@@ -12,11 +12,17 @@
       <a href = "/cart">Cart</a>
       <a href="/logout">Log Out</a>
     </div>   
-</div>
-        <hr>
-
-        <h1 class="jumbotron"> All Games in Database </h1>
-    	<hr>
+    </div>
+        
+        <div class='container'>
+            <div class='jumbotron'>
+                <div align='center'>
+                    <div id="content">
+                        <h2><strong>Games in Database</strong></h2>
+                    </div>
+                </br>
+                </div>
+            </div>
     	
     	<%gamesInfo.forEach(function(games){%>
     	
@@ -39,8 +45,5 @@
             </figure>
             
         <%});%>
-        
-             
-    </body>
 		
 <%- include ('partials/footer'); -%>
