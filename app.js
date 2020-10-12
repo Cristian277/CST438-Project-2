@@ -96,7 +96,6 @@ app.get('/edit', async function(req,res){
     //     res.render('edit', {user: user});
     // });
     
-    
     res.render('edit', {user: req.session.user, username: req.session.firstname, last: req.session.lastname, password: req.session.password, userId: req.session.userId});
 });
 
