@@ -34,8 +34,7 @@ password:24a96bfd
 host:us-cdbr-east-02.cleardb.com
 database:heroku_8b16e6334be95e8
 */
-
-//IF YOU NEED TO RESET THE DATABASE OR IF YOU UPDATED THE SQL FILE JUST PUT THIS INTO THE TERMINAL
+//TO IMPORT SQL FILE DO THIS ONLY IF YOU DROP THE DATABASE AND RECREATE IT (BE CAREFUL WITH THIS)
 //mysql --host=us-cdbr-east-02.cleardb.com --user=b106186f8dedb8 --password=24a96bfd --reconnect heroku_8b16e6334be95e8 < sql/video-game-db.sql
 
 //TO USE THE DATABASE DO THIS IN THE TERMINAL
@@ -73,10 +72,6 @@ app.get('/login', function(req, res){
 });
 
 
-/*app.get('/edit', function(req,res){
-    res.render('edit', {user: req.session.user, username: req.session.firstname, last: req.session.lastname});
-});*/
-
 app.get('/logout', function(req, res){
    req.session.destroy();
    res.redirect('/');
@@ -87,28 +82,16 @@ app.get('/create_account', function(req,res){
 });
 
 
-
 app.get('/edit', async function(req,res){
     let current = req.session.user;
-    // var stmt = 'SELECT * FROM users WHERE userId=' + req.params.userId + ';';
-    // connection.query(stmt, function(error,result){
-    //     if(error){
-    //       console.log(stmt);
-    //       throw error;   
-    //     }
-    //     if(result.length){
-    //         var user = result[0];
-    //     }
-    //     res.render('edit', {user: user});
-    // });
     
-    
-    res.render('edit', {user: req.session.user, username: req.session.firstname, last: req.session.lastname, muser: current});
+    res.render('edit', {user: req.session.user, username: req.session.firstname, last: req.session.lastname, password: req.session.password, userId: req.session.userId});
 });
 
 app.get('/user', function(req, res){
     var username = req.session.user;
-    var statement = 'select firstname,lastname ' +
+    
+    var statement = 'select firstname,lastname,userMoney ' +
                'from users ' +
                'where users.username=\'' 
                 + username + '\';'
@@ -117,14 +100,41 @@ app.get('/user', function(req, res){
         
         if(error) throw error;
         
-        var firstname = results[0].firstname;
-        var lastname = results[0].lastname;
+        var userMoney = results[0].userMoney;
         
-        res.render('user', {user: req.session.user, firstname:firstname, lastname:lastname});
+        res.render('user', {user: req.session.user, firstname:req.session.firstname, lastname:req.session.lastname, password: req.session.password, userId: req.session.userId,userMoney:userMoney});
         
     });
 });
 
+app.put('/users/:userId', function(req, res){
+    var first = req.body.firstname;
+    var last = req.body.lastname;
+    var username = req.body.username;
+    
+    var stmt = 'UPDATE users SET ' +
+                'firstname = "' +
+                req.body.firstname +
+                '",' +
+                'lastname = "' +
+                req.body.lastname +
+                '",' +
+                'username = "' +
+                req.body.username +
+                '"' +
+                'WHERE userId = ' +
+                req.session.userId +
+                ';';
+    connection.query(stmt, function(error, result){
+        if(error){
+          console.log("didnt work");
+          throw error;  
+        } 
+        console.log(result);
+        req.session.destroy();
+        res.redirect('/login');
+    });
+});
 
 //INSERTS THE NEW ACCOUNT INTO THE USERS TABLE BY TAKING INFO FROM CREATE ACCOUNT EJS
 app.post('/create_account', function(req, res){
@@ -152,6 +162,8 @@ app.post('/login', async function(req, res){
         req.session.user = isUserExist[0].username;
         req.session.firstname = isUserExist[0].firstname;
         req.session.lastname = isUserExist[0].lastname;
+        req.session.password = req.body.password;
+        req.session.userId = isUserExist[0].userId;
         
         //CHECK BACK HERE
         res.redirect('/');
@@ -162,7 +174,7 @@ app.post('/login', async function(req, res){
 });
 
 app.get('/productDetail', function(req, res){
-    var sql = 'select * from games where name=\''  + req.query.title + '\';'
+    var sql = 'select * from games where name="'  + req.query.title + '" and quantity>0 and userId IS NULL;';
 	connection.query(sql, function(error, found){
 	    var title = null;
 	    if(error) throw error;
@@ -173,7 +185,34 @@ app.get('/productDetail', function(req, res){
 	});
 });
 
-
+//ROUTE TO SHOW USERS CART
+app.get('/myGames', isAuthenticatedHome, function(req,res){
+    
+    var username = req.session.user;
+    var statement = 'select userId ' +
+               'from users ' +
+               'where users.username=\'' 
+                + username + '\';'
+    
+    connection.query(statement,function(error, results){
+        
+        if(error) throw error;
+        
+        var usersId = results[0].userId;
+               
+        var stmt = 'select * ' +
+               'from games ' +
+               'where games.userId=' 
+                + usersId + ' and games.purchased=true;'; //,games.purchased=false;
+               
+    connection.query(stmt, function(error, results){
+        
+        if(error) throw error;
+        
+        res.render('myGames', {gamesInfo:results});  //both name and quotes are passed to quotes view     
+    });
+});
+});
 
 //NEW ADD CART
 app.get('/cart/:aid/add', function(req,res){
@@ -199,8 +238,6 @@ app.get('/cart/:aid/add', function(req,res){
             
             console.log(results);
             
-            //var recipeId = results[0]['COUNT(*)'] + 1;
-            
             //RETRIEVING RECIPE
              var statement = 'select * ' +
                'from games ' +
@@ -212,14 +249,17 @@ app.get('/cart/:aid/add', function(req,res){
                 var games = results[0];
                 
                 var stmt = 'INSERT INTO games ' + 
-                '(`userId`, `name`,`image`,`yearMade`,`genre`) ' +
+                '(`userId`, `name`,`image`,`yearMade`,`genre`,`summary`,`gamePrice`,`quantity`) ' +
                 'VALUES ' +
                 '(' +
                 usersId + ',"' +
                 games.name + '","' +
                 games.image + '",' +
                 games.yearMade + ',"' +
-                games.genre + '"' +
+                games.genre + '","' +
+                games.summary + '",' +
+                games.gamePrice + ',' +
+                games.quantity + '' +
                 ');';
                 
                 console.log(stmt);
@@ -260,10 +300,10 @@ app.get('/cart', isAuthenticatedHome, function(req,res){
         
         var usersId = results[0].userId;
                
-        var stmt = 'select gameId, name, image, yearMade, genre ' +
+        var stmt = 'select * ' +
                'from games ' +
-               'where games.userId=\'' 
-                + usersId + '\';'
+               'where games.userId=' 
+                + usersId + ' and games.purchased=false;'; //,games.purchased=false;
                
     connection.query(stmt, function(error, results){
         
@@ -274,6 +314,134 @@ app.get('/cart', isAuthenticatedHome, function(req,res){
 });
 });
 
+app.put('/purchased/:gameId', function(req, res){
+    
+    //edit the user money, edit the game's bool 
+    let username = req.session.user; //username
+    var gameId = req.params.gameId;
+    //return the user's money
+    var statement = 'select * ' +
+               'from users ' +
+               'where users.username=\'' 
+                + username + '\';'
+                
+    connection.query(statement, function(error,result){
+        
+        if(error) throw error;
+        
+        //this is the user's money
+        var userMoney = result[0].userMoney;
+        var userId = result[0].userId;
+        
+        //game with the userId -> copy of the game (doesn't have specific quantity) <- trying to update this 
+        //but we should be updating the database gameId
+        
+        //database not the copy
+        var stmt = 'select * ' +
+               'from games ' +
+               'where games.gameId=' 
+                + gameId + ';';
+        
+        connection.query(stmt, function(error,result){
+            
+            if(error) throw error;
+            
+            //we have the game now with the price of the game
+            
+            var gamePrice = result[0].gamePrice;
+            var quantity = result[0].quantity;
+            var gameId = result[0].gameId;
+            var gameName = result[0].name;
+            var purchased;
+            
+            console.log(quantity);
+            
+            //subtract money from usersMoney
+            if(userMoney>gamePrice&&userMoney-gamePrice>0){
+                userMoney = userMoney - gamePrice;
+                quantity = quantity -1;
+                purchased = 1;
+            }else{
+                res.redirect(error);
+            }
+            
+            //updates the copy
+            var stmt = 'UPDATE users,games SET ' +
+                'users.userMoney = "' +
+                userMoney +
+                '",' +
+                'games.purchased = "' +
+                purchased +
+                '"' +
+                ' WHERE users.userId='+userId +' and games.gameId=' +
+                gameId +
+                ';';
+                
+                connection.query(stmt, function(error, result) {
+                    
+                    if(error) throw error;
+                    
+                    //updates the copy
+                var stmt = 'UPDATE games SET ' +
+                    'games.quantity = "' +
+                    quantity +
+                    '"' +
+                    ' WHERE games.userId IS NULL and games.name = "' + gameName + '";';
+                    
+                    connection.query(stmt, function(error, result) {
+                        
+                        if(error) throw error;
+                        
+                        res.redirect('/user');
+                        
+                    });
+                    
+                });
+        });
+    });
+});
+
+//ROUTE TO SHOW DATABASE GAMESLIST
+app.get('/gameList', isAuthenticatedHome, function(req,res){
+    
+    var username = req.session.user;
+    
+    var statement = 'select userId ' +
+               'from users ' +
+               'where users.username=\''
+                + username + '\';'
+                
+    connection.query(statement,function(error, results){
+        
+        if(error) throw error;
+        
+        var usersId = results[0].userId; //holds userId
+        
+        var stmt = 'SELECT * from games where userId IS NULL and quantity>0;';
+        
+    connection.query(stmt, function(error, results){
+        if(error) throw error;
+        res.render('gameList',{gamesInfo : results});  //both name and quotes are passed to quotes view
+    });
+});
+});
+
+app.get('/randomGenerator', function(req, res){
+    res.render('randomGenerator');
+});
+
+app.post('/randomGenerator', function(req, res){
+    var stmt = 'SELECT * FROM games;';
+    console.log(stmt);
+    var games = null;
+    connection.query(stmt, function(error, results){
+        if(error) throw error;
+        if(results.length) games = results;
+        res.send(games);
+        });
+});
+
+
 //CART
 app.get('/cart', function(req, res){
     res.render('cart');
@@ -281,18 +449,16 @@ app.get('/cart', function(req, res){
 
 //Search
 app.get('/search', function(req, res){
-    res.render('search');
+    res.render('search',{user: req.session.user});
 });
 
 app.get('/productDetail', function(req, res){
-    res.render('productDetail');
+    res.render('productDetail',{user: req.session.user});
 });
-
 
 app.get('*', function(req, res){
     res.render('error');
 });
-
 
 //FUNCTIONS
 //-------------------------------------------------------------------------------------------
