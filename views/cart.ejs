@@ -34,11 +34,17 @@
             <h5><strong>Genre:</strong> <%=games.genre%></h5>
             <h5><strong>Summary:</strong> <%=games.summary%></h5>
             
+            <form action='/purchased/<%=games.gameId%>?_method=PUT' method='POST'>
+			<button class='btn btn-primary btn-block'>Purchase</button>
+	        </form>
+            
             <form action="/cart/<%=games.gameId%>/delete" method="GET">
 			<button class='btn btn-primary btn-block'>Remove From Cart</button>
 	        </form>
+	   
             </figure>
             
         <%});%>
+        
         
 <%- include ('partials/footer'); -%>
