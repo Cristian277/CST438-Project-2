@@ -1,7 +1,19 @@
 <%- include ('partials/header'); -%>
 
-</br>
-</br>
+    <div>
+        <div class="header">
+            <h1 style='font-size: 60px'>Video Game Store</b></h1>
+        </div>
+        </div>
+
+    <div class="topnav">
+      <a href = "/">Home</a>
+      <a href="/user">User Account</a>
+      <a href = "/search">Search</a>
+      <a href="/gameList">Game List</a>
+      <a href = "/cart">Cart</a>
+      <a href="/logout">Log Out</a>
+    </div> 
 
 <div class='container'>
     <div class='jumbotron'>
@@ -12,38 +24,27 @@
             <div class='col-sm-4'></div>
         </div>
     </div>
-
-    <div class='row'>
         <%if(!title){%>
-            <h1 class='col-sm-12 notfound'>Video Game Not Found!</h1>
+        <div class='row'>
+            <h1 class='col-sm-12 notfound'>Title was not found!</h1>
+            </div>
         <%}
         else{%>
-        <img class='col-sm-4 portrait' src=<%=title.image%> />
-		    <div class='col-sm-4 info'>
-		        <h3><%=title.name%></h3>
-		        <h3><%=title.yearMade%></h3>
-		        <h3><%=title.genre%></h3>
-		        <h1><%=title.summary%></h1>
-		    </div>
-        <%}%>
-	</div>
-	</br>
-    </br>
-
-    <form action="/cart/<%=title.gameId%>/add" method="GET">
-            
+        <figure id="results">
+            <img src='<%=title.image%>' width='200' id="images">
+            <br><br>
+            <h5><strong>Game Name:</strong> <%=title.name%></h5>
+            <h5><strong>Year Made:</strong> <%=title.yearMade%></h5>
+            <h5><strong>Genre:</strong> <%=title.genre%></h5>
+            <h5><strong>Summary:</strong> <%=title.summary%></h5>
+            <h5><strong>Price: $</strong> <%=title.gamePrice%></h5>
+            <h5><strong>Quantity:</strong> <%=title.quantity%></h5>
+	    <form action="/cart/<%=title.gameId%>/add" method="GET">
 			<button class='btn btn-primary btn-block'>Add to Cart</button>
-			
-	</form>
-
+	   </form>
+            </figure>
+        <%}%>
+	</br>
 </div>
 
-</br>
-</br>
-
 <%- include ('partials/footer'); -%>
-
-</br>
-</br> 
-</br>
-
