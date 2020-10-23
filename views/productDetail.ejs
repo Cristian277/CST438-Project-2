@@ -37,6 +37,8 @@
             <h5><strong>Year Made:</strong> <%=title.yearMade%></h5>
             <h5><strong>Genre:</strong> <%=title.genre%></h5>
             <h5><strong>Summary:</strong> <%=title.summary%></h5>
+            <h5><strong>Price: $</strong> <%=title.gamePrice%></h5>
+            <h5><strong>Quantity:</strong> <%=title.quantity%></h5>
 	    <form action="/cart/<%=title.gameId%>/add" method="GET">
 			<button class='btn btn-primary btn-block'>Add to Cart</button>
 	   </form>
