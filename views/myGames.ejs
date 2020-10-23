@@ -2,7 +2,7 @@
 
 <div>
     <div class="header">
-        <h1 style='font-size: 60px'>Video Game Store</h1>
+        <h1 style='font-size: 60px'>My Games</h1>
     </div>
     <div class="topnav">
       <a href = "/">Home</a>
@@ -18,7 +18,7 @@
             <div class='jumbotron'>
                 <div align='center'>
                     <div id="content">
-                        <h2><strong>Games in Database</strong></h2>
+                        <h2><strong>Purchase History</strong></h2>
                     </div>
                 </br>
                 </div>
@@ -33,16 +33,8 @@
             <h5>Year Made: <%=games.yearMade%></h5>
             <h5>Genre: <%=games.genre%></h5>
             <h5>Summary: <%=games.summary%></h5>
-            <h5>Price: $<%=games.gamePrice%></h5>
-            <h5>Quantity: <%=games.quantity%></h5>
             
             <br>
-            
-            <form action="/cart/<%=games.gameId%>/add" method="GET">
-            
-			<button class='btn btn-primary btn-block'>Add to Cart</button>
-			
-			</form>
             
             </figure>
             

@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS `games`;
 
 CREATE TABLE `games` (
   `gameId` mediumint(9) NOT NULL,
-  `userId` mediumint(9) NOT NULL,
+  `userId` mediumint(9),
   `name` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `image` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `yearMade` int(11) DEFAULT NULL,
@@ -31,10 +31,10 @@ CREATE TABLE `games` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO `games` (`gameId`, `userId`, `name`,`image`,`yearMade`,`genre`,`gamePrice`,`summary`,`quantity`) VALUES
-(1, NULL, 'Halo 3', 'https://www.halopedia.org/images/thumb/e/e5/Halo3coverart.JPG/1200px-Halo3coverart.JPG', 2007,'First Person Shooter', 20.00,'Summary Coming Soon..', 3),
-(2, NULL, 'Sekiro: Shadows Die Twice', 'https://upload.wikimedia.org/wikipedia/en/thumb/6/6e/Sekiro_art.jpg/220px-Sekiro_art.jpg', 2019, 'Action', 25.00,'Summary Coming Soon...', 5),
-(3, NULL, 'The Division 2', 'https://upload.wikimedia.org/wikipedia/en/a/af/The_Division_2_art.jpg', 2019, 'Third-Person Shooter', 10.00,'Summary Coming Soon..', 2),
-(4, NULL, 'Halo 4', 'https://www.mobygames.com/images/covers/l/281470-halo-4-xbox-360-front-cover.jpg', 2012,'First Person Shooter', 5.00,'Summary Coming Soon..', 1),
+(1, NULL, 'Halo 3', 'https://www.halopedia.org/images/thumb/e/e5/Halo3coverart.JPG/1200px-Halo3coverart.JPG', 2007,'First Person Shooter', 20.99,'Summary Coming Soon..', 3),
+(2, NULL, 'Sekiro: Shadows Die Twice', 'https://upload.wikimedia.org/wikipedia/en/thumb/6/6e/Sekiro_art.jpg/220px-Sekiro_art.jpg', 2019, 'Action', 25.99,'Summary Coming Soon...', 5),
+(3, NULL, 'The Division 2', 'https://upload.wikimedia.org/wikipedia/en/a/af/The_Division_2_art.jpg', 2019, 'Third-Person Shooter', 10.99,'Summary Coming Soon..', 2),
+(4, NULL, 'Halo 4', 'https://www.mobygames.com/images/covers/l/281470-halo-4-xbox-360-front-cover.jpg', 2012,'First Person Shooter', 5.99,'Summary Coming Soon..', 1),
 (5, NULL, 'Metro Exodus', 'https://steamcdn-a.akamaihd.net/steam/apps/412020/header.jpg?t=1582550242', 2019,'FPS', 39.99, 'Flee the shattered ruins of the Moscow Metro and embark on an epic, continent-spanning journey across the post-apocalyptic Russian wilderness. Explore vast, non-linear levels, lose yourself in an immersive, sandbox survival experience, and follow a thrilling story-line.', 5),
 (6, NULL, 'Pokémon Sword and Shield', 'https://www.nintendo.com/content/dam/noa/en_US/games/switch/p/pokemon-shield-switch/pokemon-shield-switch-hero.jpg', 2019,'RPG', 59.99, 'A new generation of Pokémon is coming to the Nintendo Switch™ system. Begin your adventure as a Pokémon Trainer by choosing one of three new partner Pokémon: Grookey, Scorbunny, or Sobble. Then embark on a journey in the new Galar region, where you’ll challenge the troublemakers of Team Yell, while unraveling the mystery behind the Legendary Pokémon Zacian and Zamazenta!', 5),
 (7, NULL, 'Final Fantasy 14 Online', 'https://steamcdn-a.akamaihd.net/steam/apps/39210/header.jpg?t=1587567669', 2014, 'RPG', 39.99, 'Take part in an epic and ever-changing FINAL FANTASY as you adventure and explore with friends from around the world.', 5),

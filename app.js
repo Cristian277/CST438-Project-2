@@ -135,7 +135,6 @@ app.put('/users/:userId', function(req, res){
     });
 });
 
-
 //INSERTS THE NEW ACCOUNT INTO THE USERS TABLE BY TAKING INFO FROM CREATE ACCOUNT EJS
 app.post('/create_account', function(req, res){
     let salt = 10;
@@ -174,7 +173,7 @@ app.post('/login', async function(req, res){
 });
 
 app.get('/productDetail', function(req, res){
-    var sql = 'select * from games where name=\''  + req.query.title + '\';'
+    var sql = 'select * from games where name="'  + req.query.title + '" and quantity>0 and userId IS NULL;';
 	connection.query(sql, function(error, found){
 	    var title = null;
 	    if(error) throw error;
@@ -183,6 +182,35 @@ app.get('/productDetail', function(req, res){
 	    }
 	    res.render('productDetail', {title: title});
 	});
+});
+
+//ROUTE TO SHOW USERS CART
+app.get('/myGames', isAuthenticatedHome, function(req,res){
+    
+    var username = req.session.user;
+    var statement = 'select userId ' +
+               'from users ' +
+               'where users.username=\'' 
+                + username + '\';'
+    
+    connection.query(statement,function(error, results){
+        
+        if(error) throw error;
+        
+        var usersId = results[0].userId;
+               
+        var stmt = 'select * ' +
+               'from games ' +
+               'where games.userId=' 
+                + usersId + ' and games.purchased=true;'; //,games.purchased=false;
+               
+    connection.query(stmt, function(error, results){
+        
+        if(error) throw error;
+        
+        res.render('myGames', {gamesInfo:results});  //both name and quotes are passed to quotes view     
+    });
+});
 });
 
 //NEW ADD CART
@@ -322,25 +350,24 @@ app.put('/purchased/:gameId', function(req, res){
             var gamePrice = result[0].gamePrice;
             var quantity = result[0].quantity;
             var gameId = result[0].gameId;
+            var gameName = result[0].name;
             var purchased;
             
             console.log(quantity);
             
             //subtract money from usersMoney
-            if(userMoney>gamePrice&&userMoney>0){
+            if(userMoney>gamePrice&&userMoney-gamePrice>0){
                 userMoney = userMoney - gamePrice;
                 quantity = quantity -1;
-                purchased = true;
+                purchased = 1;
             }else{
-                throw error;
+                res.redirect(error);
             }
             
+            //updates the copy
             var stmt = 'UPDATE users,games SET ' +
                 'users.userMoney = "' +
                 userMoney +
-                '",' +
-                'games.quantity = "' +
-                 quantity + 
                 '",' +
                 'games.purchased = "' +
                 purchased +
@@ -353,9 +380,20 @@ app.put('/purchased/:gameId', function(req, res){
                     
                     if(error) throw error;
                     
-                    console.log(result);
+                    //updates the copy
+                var stmt = 'UPDATE games SET ' +
+                    'games.quantity = "' +
+                    quantity +
+                    '"' +
+                    ' WHERE games.userId IS NULL and games.name = "' + gameName + '";';
                     
-                    res.redirect('/user');
+                    connection.query(stmt, function(error, result) {
+                        
+                        if(error) throw error;
+                        
+                        res.redirect('/user');
+                        
+                    });
                     
                 });
         });
@@ -378,9 +416,8 @@ app.get('/gameList', isAuthenticatedHome, function(req,res){
         
         var usersId = results[0].userId; //holds userId
         
-        var stmt = 'SELECT * '+
-        'FROM games WHERE games.userId=\''
-                + 0 + '\';'
+        var stmt = 'SELECT * from games where userId IS NULL and quantity>0;';
+        
     connection.query(stmt, function(error, results){
         if(error) throw error;
         res.render('gameList',{gamesInfo : results});  //both name and quotes are passed to quotes view
