@@ -11,7 +11,7 @@ CREATE TABLE `users` (
 	`lastname` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
 	`username` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
 	`password` varchar(72) COLLATE utf8_unicode_ci NOT NULL,
-  `userMoney` DOUBLE(16,2) DEFAULT 100.00
+  `userMoney` DECIMAL(5,2) DEFAULT 100.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 DROP TABLE IF EXISTS `games`;
@@ -25,7 +25,8 @@ CREATE TABLE `games` (
   `genre` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `gamePrice` DOUBLE(16,2) NOT NULL,
   `summary`  varchar(500) COLLATE utf8_unicode_ci NOT NULL,
-  `quantity` mediumint(9) NOT NULL
+  `quantity` mediumint(9) NOT NULL,
+  `purchased` BOOLEAN DEFAULT false
   
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

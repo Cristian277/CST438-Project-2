@@ -84,17 +84,6 @@ app.get('/create_account', function(req,res){
 
 app.get('/edit', async function(req,res){
     let current = req.session.user;
-    // var stmt = 'SELECT * FROM users WHERE userId=' + req.params.userId + ';';
-    // connection.query(stmt, function(error,result){
-    //     if(error){
-    //       console.log(stmt);
-    //       throw error;   
-    //     }
-    //     if(result.length){
-    //         var user = result[0];
-    //     }
-    //     res.render('edit', {user: user});
-    // });
     
     res.render('edit', {user: req.session.user, username: req.session.firstname, last: req.session.lastname, password: req.session.password, userId: req.session.userId});
 });
@@ -102,7 +91,7 @@ app.get('/edit', async function(req,res){
 app.get('/user', function(req, res){
     var username = req.session.user;
     
-    var statement = 'select firstname,lastname ' +
+    var statement = 'select firstname,lastname,userMoney ' +
                'from users ' +
                'where users.username=\'' 
                 + username + '\';'
@@ -111,7 +100,9 @@ app.get('/user', function(req, res){
         
         if(error) throw error;
         
-        res.render('user', {user: req.session.user, firstname:req.session.firstname, lastname:req.session.lastname, password: req.session.password, userId: req.session.userId});
+        var userMoney = results[0].userMoney;
+        
+        res.render('user', {user: req.session.user, firstname:req.session.firstname, lastname:req.session.lastname, password: req.session.password, userId: req.session.userId,userMoney:userMoney});
         
     });
 });
@@ -139,6 +130,7 @@ app.put('/users/:userId', function(req, res){
           console.log("didnt work");
           throw error;  
         } 
+        console.log(result);
         res.redirect('/user');
     });
 });
@@ -228,7 +220,7 @@ app.get('/cart/:aid/add', function(req,res){
                 var games = results[0];
                 
                 var stmt = 'INSERT INTO games ' + 
-                '(`userId`, `name`,`image`,`yearMade`,`genre`,`summary`) ' +
+                '(`userId`, `name`,`image`,`yearMade`,`genre`,`summary`,`gamePrice`,`quantity`) ' +
                 'VALUES ' +
                 '(' +
                 usersId + ',"' +
@@ -236,7 +228,9 @@ app.get('/cart/:aid/add', function(req,res){
                 games.image + '",' +
                 games.yearMade + ',"' +
                 games.genre + '","' +
-                games.summary + '"' +
+                games.summary + '",' +
+                games.gamePrice + ',' +
+                games.quantity + '' +
                 ');';
                 
                 console.log(stmt);
@@ -279,8 +273,8 @@ app.get('/cart', isAuthenticatedHome, function(req,res){
                
         var stmt = 'select * ' +
                'from games ' +
-               'where games.userId=\'' 
-                + usersId + '\';'
+               'where games.userId=' 
+                + usersId + ' and games.purchased=false;'; //,games.purchased=false;
                
     connection.query(stmt, function(error, results){
         
@@ -289,6 +283,83 @@ app.get('/cart', isAuthenticatedHome, function(req,res){
         res.render('cart', {gamesInfo:results});  //both name and quotes are passed to quotes view     
     });
 });
+});
+
+app.put('/purchased/:gameId', function(req, res){
+    
+    //edit the user money, edit the game's bool 
+    let username = req.session.user; //username
+    var gameId = req.params.gameId;
+    //return the user's money
+    var statement = 'select * ' +
+               'from users ' +
+               'where users.username=\'' 
+                + username + '\';'
+                
+    connection.query(statement, function(error,result){
+        
+        if(error) throw error;
+        
+        //this is the user's money
+        var userMoney = result[0].userMoney;
+        var userId = result[0].userId;
+        
+        //game with the userId -> copy of the game (doesn't have specific quantity) <- trying to update this 
+        //but we should be updating the database gameId
+        
+        //database not the copy
+        var stmt = 'select * ' +
+               'from games ' +
+               'where games.gameId=' 
+                + gameId + ';';
+        
+        connection.query(stmt, function(error,result){
+            
+            if(error) throw error;
+            
+            //we have the game now with the price of the game
+            
+            var gamePrice = result[0].gamePrice;
+            var quantity = result[0].quantity;
+            var gameId = result[0].gameId;
+            var purchased;
+            
+            console.log(quantity);
+            
+            //subtract money from usersMoney
+            if(userMoney>gamePrice&&userMoney>0){
+                userMoney = userMoney - gamePrice;
+                quantity = quantity -1;
+                purchased = true;
+            }else{
+                throw error;
+            }
+            
+            var stmt = 'UPDATE users,games SET ' +
+                'users.userMoney = "' +
+                userMoney +
+                '",' +
+                'games.quantity = "' +
+                 quantity + 
+                '",' +
+                'games.purchased = "' +
+                purchased +
+                '"' +
+                ' WHERE users.userId='+userId +' and games.gameId=' +
+                gameId +
+                ';';
+                
+                connection.query(stmt, function(error, result) {
+                    
+                    if(error) throw error;
+                    
+                    console.log(result);
+                    
+                    res.redirect('/user');
+                    
+                });
+        });
+    });
 });
 
 //ROUTE TO SHOW DATABASE GAMESLIST
