@@ -20,13 +20,13 @@
             <p><strong>Click the button to get a random game!</strong></p>
             <button onclick="randomGame()">Do it!</button>
             <p id="RNG"></p>
-            <img class='col-sm-4 portrait' id='gameCover' src= />
+            <img class='col-sm-4 portrait' id='image' src= />
             </br>
             <div class='col-sm-4 info'>
-                <h3 id='title'></h3>
+                <h3 id='name'></h3>
                 
                 <div><strong>Genre:</strong>&ensp;<div id='genre'></div></div>
-                <div><strong>Pricing:</strong>&ensp;$<div id='pricing'></div></div>
+                <div><strong>Pricing: </strong>&ensp;<div id='pricing'></div></div>
                 <div><strong>Summary:</strong>&ensp;<div id='summary'></div></div>
             </div>
         </div>
@@ -48,9 +48,9 @@ function randomGame() {
             console.log(data);
             $('#RNG').html(data[x].gameId);
             $('#image').attr('src', `${data[x].image}`);
-            $('#title').html(data[x].title);
+            $('#name').html(data[x].name);
             $('#genre').html(data[x].genre);
-            $('#pricing').html(data[x].pricing);
+            $('#pricing').html(data[x].gamePrice);
             $('#summary').html(data[x].summary);
         }
     });

@@ -33,6 +33,7 @@
             <h5><strong>Year Made:</strong> <%=games.yearMade%></h5>
             <h5><strong>Genre:</strong> <%=games.genre%></h5>
             <h5><strong>Summary:</strong> <%=games.summary%></h5>
+            <h5><strong>Price: </strong>$ <%=games.gamePrice%></h5>
             
             <form action='/purchased/<%=games.gameId%>?_method=PUT' method='POST'>
 			<button class='btn btn-primary btn-block'>Purchase</button>
