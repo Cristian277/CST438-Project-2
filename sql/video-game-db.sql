@@ -11,7 +11,7 @@ CREATE TABLE `users` (
 	`lastname` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
 	`username` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
 	`password` varchar(72) COLLATE utf8_unicode_ci NOT NULL,
-  `userMoney` DECIMAL(5,2) DEFAULT 100.00
+  `userMoney` DECIMAL(5,2) DEFAULT 200.00
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 DROP TABLE IF EXISTS `games`;

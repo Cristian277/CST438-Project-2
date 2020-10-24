@@ -83,8 +83,6 @@ app.get('/create_account', function(req,res){
 
 
 app.get('/edit', async function(req,res){
-    let current = req.session.user;
-    
     res.render('edit', {user: req.session.user, username: req.session.firstname, last: req.session.lastname, password: req.session.password, userId: req.session.userId});
 });
 
@@ -94,7 +92,7 @@ app.get('/user', function(req, res){
     var statement = 'select firstname,lastname,userMoney ' +
                'from users ' +
                'where users.username=\'' 
-                + username + '\';'
+                + username + '\';';
                 
     connection.query(statement,function(error, results){
         
@@ -108,9 +106,6 @@ app.get('/user', function(req, res){
 });
 
 app.put('/users/:userId', function(req, res){
-    var first = req.body.firstname;
-    var last = req.body.lastname;
-    var username = req.body.username;
     
     var stmt = 'UPDATE users SET ' +
                 'firstname = "' +
@@ -131,7 +126,8 @@ app.put('/users/:userId', function(req, res){
           throw error;  
         } 
         console.log(result);
-        res.redirect('/user');
+        req.session.destroy();
+        res.redirect('/login');
     });
 });
 
@@ -156,7 +152,6 @@ app.post('/login', async function(req, res){
     let hashedPasswd = isUserExist.length > 0 ? isUserExist[0].password : '';
     let passwordMatch = await checkPassword(req.body.password, hashedPasswd);
     if(passwordMatch){
-        
         req.session.authenticated = true;
         req.session.user = isUserExist[0].username;
         req.session.firstname = isUserExist[0].firstname;
@@ -191,7 +186,7 @@ app.get('/myGames', isAuthenticatedHome, function(req,res){
     var statement = 'select userId ' +
                'from users ' +
                'where users.username=\'' 
-                + username + '\';'
+                + username + '\';';
     
     connection.query(statement,function(error, results){
         
@@ -221,7 +216,7 @@ app.get('/cart/:aid/add', function(req,res){
     var statement = 'select userId ' +
                'from users ' +
                'where users.username=\'' 
-                + username + '\';'
+                + username + '\';';
     
     connection.query(statement,function(error, results){
         
@@ -241,7 +236,7 @@ app.get('/cart/:aid/add', function(req,res){
              var statement = 'select * ' +
                'from games ' +
                'where games.gameId=\'' 
-                + req.params.aid + '\';'
+                + req.params.aid + '\';';
         
             connection.query(statement,function(error,results){
                 
@@ -291,7 +286,7 @@ app.get('/cart', isAuthenticatedHome, function(req,res){
     var statement = 'select userId ' +
                'from users ' +
                'where users.username=\'' 
-                + username + '\';'
+                + username + '\';';
     
     connection.query(statement,function(error, results){
         
@@ -322,7 +317,7 @@ app.put('/purchased/:gameId', function(req, res){
     var statement = 'select * ' +
                'from users ' +
                'where users.username=\'' 
-                + username + '\';'
+                + username + '\';';
                 
     connection.query(statement, function(error,result){
         
@@ -361,7 +356,7 @@ app.put('/purchased/:gameId', function(req, res){
                 quantity = quantity -1;
                 purchased = 1;
             }else{
-                res.redirect(error);
+                throw error;
             }
             
             //updates the copy
@@ -393,9 +388,8 @@ app.put('/purchased/:gameId', function(req, res){
                         
                         res.redirect('/user');
                         
-                    });
-                    
                 });
+            });
         });
     });
 });
@@ -408,13 +402,11 @@ app.get('/gameList', isAuthenticatedHome, function(req,res){
     var statement = 'select userId ' +
                'from users ' +
                'where users.username=\''
-                + username + '\';'
+                + username + '\';';
                 
     connection.query(statement,function(error, results){
         
         if(error) throw error;
-        
-        var usersId = results[0].userId; //holds userId
         
         var stmt = 'SELECT * from games where userId IS NULL and quantity>0;';
         
@@ -439,7 +431,6 @@ app.post('/randomGenerator', function(req, res){
         res.send(games);
         });
 });
-
 
 //CART
 app.get('/cart', function(req, res){
