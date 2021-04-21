@@ -1,2 +1,2 @@
 # CST438-Project-2
-Video Game Store
+Web App Video Game Store
