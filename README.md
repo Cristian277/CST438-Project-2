@@ -17,7 +17,7 @@
 ### Elijah Hallera
 - Email: 
 - Phone: 
-- Github Link: 
+- Github Link: https://github.com/ElijahHallera
 
 ### Christian Jimenez
 - Email: 
