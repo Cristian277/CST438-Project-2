@@ -1,6 +1,6 @@
 # CST438 - Project 2
 
-# Video Game Store Web App that allows users to save video games into the database as well as search for saved games. 
+# Web App that allows users to save video games into the database as well as search for saved games. 
 
 # Contributors:
 
