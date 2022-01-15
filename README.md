@@ -1,8 +1,8 @@
-# CST438 - Project 2
+# Game Store
 
-# Web App that allows users to save video games into the database as well as search for saved games. 
+Web App that allows users to save video games into the database as well as search for saved games. 
 
-# Heroku: https://cst438-video-game-project-2.herokuapp.com/
+Heroku: https://cst438-video-game-project-2.herokuapp.com/
 
 # Contributors:
 
